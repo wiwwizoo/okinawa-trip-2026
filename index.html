@@ -1,0 +1,363 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<style>body{margin:0}img{max-width:100%}</style>
+<title>沖繩四天三夜</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Noto+Sans+TC:wght@400;500;700;900&display=swap">
+<style>
+/* Layout: single reading column; sticky day switcher; timeline cards with time gutter, like the printed handbook */
+:root {
+  --bg: #fdf8ec;
+  --surface: #ffffff;
+  --fg: #1d1f1a;
+  --muted: #62655c;
+  --line: #1d1f1a;
+  --note: #f0ece1;
+  --green: #4d6b1c;
+  --mint: #b9e3cc;
+  --sea: #0b67a8;
+  --coral: #e2461d;
+  --sun: #f5a043;
+  --font-display: "Bricolage Grotesque", "Noto Sans TC", system-ui, sans-serif;
+  --font-body: "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", system-ui, sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #15180f; --surface: #1f231a; --fg: #ecebe2; --muted: #a6a99b; --line: #4a5040;
+    --note: #2a2f23; --green: #a9cc6a; --mint: #2f5a45; --sea: #2a7fc0; --coral: #ff7a52; --sun: #f5a043;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #15180f; --surface: #1f231a; --fg: #ecebe2; --muted: #a6a99b; --line: #4a5040;
+  --note: #2a2f23; --green: #a9cc6a; --mint: #2f5a45; --sea: #2a7fc0; --coral: #ff7a52; --sun: #f5a043;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body {
+  background: var(--bg); color: var(--fg);
+  font-family: var(--font-body); font-size: 16px; line-height: 1.65;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 10; background: var(--bg); }
+.wrap { max-width: 760px; margin: 0 auto; padding-block: 24px 64px; }
+h1, h2, h3 { text-wrap: balance; margin: 0; }
+a { color: inherit; }
+:focus-visible { outline: 3px solid var(--sun); outline-offset: 2px; }
+
+/* hero */
+.scene { width: 100%; height: auto; display: block; border-radius: 14px; }
+.eyebrow { font-family: var(--font-display); font-size: 12px; font-weight: 800; letter-spacing: .18em; text-transform: uppercase; color: var(--green); }
+.hero { display: grid; gap: 6px; margin-top: 20px; }
+.hero h1 { font-size: clamp(34px, 8vw, 52px); font-weight: 900; line-height: 1.15; }
+.hero p { margin: 0; color: var(--muted); }
+.who { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
+.who span { border: 1.5px solid var(--line); border-radius: 999px; padding: 2px 12px; font-size: 14px; background: var(--surface); }
+
+/* day nav */
+.daynav {
+  position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5;
+  background: var(--bg); padding-block: 10px; margin-top: 28px;
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px;
+  border-bottom: 1.5px solid var(--line);
+}
+.daynav a {
+  text-decoration: none; text-align: center; border: 1.5px solid var(--line); border-radius: 10px;
+  padding: 6px 4px; background: var(--surface); font-size: 13px; line-height: 1.3;
+}
+.daynav a b { display: block; font-family: var(--font-display); font-size: 18px; color: var(--green); }
+.daynav a.on { background: var(--green); color: var(--bg); border-color: var(--green); }
+.daynav a.on b { color: var(--bg); }
+
+section { scroll-margin-top: 90px; }
+.sec-head { display: grid; gap: 2px; margin: 48px 0 16px; }
+.sec-head h2 { font-size: 24px; font-weight: 900; }
+
+/* day header */
+.day-head { display: flex; align-items: flex-end; gap: 14px; margin: 44px 0 18px; padding-bottom: 12px; border-bottom: 2px solid var(--line); }
+.day-num { font-family: var(--font-display); font-weight: 800; font-size: 60px; line-height: .85; color: var(--green); font-variant-numeric: tabular-nums; }
+.day-head h3 { font-size: 22px; font-weight: 900; }
+.day-head h3 small { font-size: 15px; font-weight: 700; color: var(--muted); margin-left: 6px; }
+.day-head p { margin: 0; color: var(--muted); font-size: 14px; }
+
+/* timeline */
+.tl { list-style: none; margin: 0; padding: 0; display: grid; gap: 14px; }
+.tl li { display: grid; grid-template-columns: 58px 1fr; gap: 12px; }
+.time { font-family: var(--font-display); font-weight: 800; font-size: 17px; padding-top: 14px; font-variant-numeric: tabular-nums; }
+.card {
+  min-width: 0; background: var(--surface); border: 1.5px solid var(--line); border-radius: 14px;
+  padding: 12px 16px 14px; box-shadow: 0 4px 0 var(--mint);
+}
+.card h4 { margin: 0 0 4px; font-size: 17px; font-weight: 700; line-height: 1.4; }
+.meta { margin: 0; font-size: 14px; color: var(--muted); }
+.meta + .meta { margin-top: 2px; }
+.meta a { text-decoration-color: var(--green); text-underline-offset: 3px; }
+.meta a::after { content: " ↗"; font-size: 12px; color: var(--green); }
+.note { margin-top: 10px; background: var(--note); border-radius: 8px; padding: 8px 12px; font-size: 14.5px; }
+.note p { margin: 0; }
+.flag { color: var(--coral); font-weight: 700; }
+
+/* flights */
+.flights { display: grid; gap: 16px; }
+.flight { border: 1.5px solid var(--line); border-radius: 14px; overflow: hidden; background: var(--surface); box-shadow: 0 4px 0 var(--mint); }
+.flight header { background: var(--sea); color: #fff; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 4px 12px; padding: 8px 16px; font-weight: 700; font-size: 14px; }
+.flight header span:last-child { font-family: var(--font-display); letter-spacing: .08em; }
+.route { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; padding: 14px 16px 10px; }
+.route .t { font-family: var(--font-display); font-weight: 800; font-size: 32px; line-height: 1; font-variant-numeric: tabular-nums; }
+.route .p { font-size: 13px; color: var(--muted); }
+.route .end { text-align: right; }
+.route .arrow { color: var(--coral); font-size: 22px; padding: 0 12px; }
+.flight .foot { border-top: 1.5px dashed var(--line); margin: 0 16px; padding: 10px 0 14px; font-size: 14px; }
+.small { font-size: 13px; color: var(--muted); margin: 10px 0 0; }
+
+/* tips + info */
+.tips { display: grid; gap: 10px; }
+.tip { border: 1.5px solid var(--line); border-radius: 12px; background: color-mix(in srgb, var(--mint) 45%, var(--surface)); padding: 10px 16px; }
+.info { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+.info div { border: 1.5px solid var(--line); border-radius: 12px; background: var(--surface); padding: 10px 16px; min-width: 0; }
+.info .wide { grid-column: 1 / -1; }
+.info dt { font-size: 12.5px; font-weight: 700; color: var(--green); }
+.info dd { margin: 2px 0 0; font-weight: 700; overflow-wrap: anywhere; }
+.info dd.big { font-family: var(--font-display); font-size: 28px; line-height: 1.1; }
+.info dd .copy { margin-left: 8px; font: inherit; font-size: 12px; font-weight: 500; border: 1px solid var(--line); background: var(--bg); color: var(--fg); border-radius: 6px; padding: 1px 8px; cursor: pointer; }
+
+/* packing */
+.pack { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+.pack label { display: flex; gap: 12px; align-items: center; border: 1.5px solid var(--line); border-radius: 12px; background: var(--surface); padding: 10px 16px; cursor: pointer; }
+.pack input { width: 20px; height: 20px; accent-color: var(--green); flex: none; }
+.pack input:checked + span { text-decoration: line-through; color: var(--muted); }
+.pack-count { font-size: 14px; color: var(--muted); margin: 0 0 10px; }
+
+/* expenses */
+.total { border: 1.5px solid var(--line); border-radius: 14px; background: var(--surface); padding: 14px 18px; box-shadow: 0 4px 0 var(--mint); }
+.total .num { font-family: var(--font-display); font-weight: 800; font-size: clamp(36px, 9vw, 48px); line-height: 1.1; font-variant-numeric: tabular-nums; }
+.total p { margin: 4px 0 0; color: var(--muted); font-size: 14px; }
+.rows { display: grid; gap: 8px; margin-top: 14px; }
+.rows div { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 4px 16px; border: 1.5px solid var(--line); border-radius: 12px; background: var(--surface); padding: 10px 16px; font-weight: 700; font-size: 15px; }
+.rows span:last-child { font-variant-numeric: tabular-nums; }
+
+footer { margin-top: 40px; font-size: 13px; color: var(--muted); }
+
+@media (max-width: 480px) {
+  .tl li { grid-template-columns: 1fr; gap: 4px; }
+  .time { padding-top: 0; }
+  .info { grid-template-columns: 1fr; }
+  .route .t { font-size: 26px; }
+  .day-num { font-size: 48px; }
+}
+@media (prefers-reduced-motion: no-preference) { html { scroll-behavior: smooth; } }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <svg class="scene" viewBox="0 0 800 220" role="img" aria-label="飛機、跨海大橋上的車子、椰子樹小島和太陽">
+    <rect width="800" height="220" fill="var(--note)"/>
+    <circle cx="700" cy="70" r="32" fill="var(--sun)" stroke="var(--line)" stroke-width="3"/>
+    <path d="M560 60 q0-22 22-22 q8-18 30-12 q22 0 22 22 q16 2 14 18 h-88z" fill="var(--surface)" stroke="var(--line)" stroke-width="3"/>
+    <path d="M20 90 q90-14 190-22" fill="none" stroke="var(--line)" stroke-width="3" stroke-dasharray="10 8"/>
+    <g stroke="var(--line)" stroke-width="3">
+      <ellipse cx="270" cy="62" rx="62" ry="13" fill="var(--surface)"/>
+      <path d="M215 38 l20 0 l18 22 h-16z" fill="var(--coral)"/>
+      <path d="M250 70 l40 0 l-22 34 h-16z" fill="#5aaec4"/>
+    </g>
+    <circle cx="300" cy="60" r="3" fill="var(--line)"/><circle cx="312" cy="60" r="3" fill="var(--line)"/>
+    <path d="M440 168 q90-60 190 0z" fill="#8ccb5a" stroke="var(--line)" stroke-width="3"/>
+    <path d="M560 168 q-4-50 12-80" fill="none" stroke="var(--line)" stroke-width="4"/>
+    <path d="M572 90 q-30-8-46 6 q22 2 46-6 q24-14 44 0 q-26 6-44 0 q-4-20 10-34 q-6 22-10 34" fill="#3f8f3a" stroke="var(--line)" stroke-width="2.5"/>
+    <rect x="0" y="168" width="800" height="52" fill="#96d7e0" stroke="var(--line)" stroke-width="3"/>
+    <line x1="90" y1="156" x2="480" y2="156" stroke="var(--line)" stroke-width="4"/>
+    <g stroke="var(--line)" stroke-width="3"><line x1="120" y1="156" x2="120" y2="168"/><line x1="200" y1="156" x2="200" y2="168"/><line x1="280" y1="156" x2="280" y2="168"/><line x1="360" y1="156" x2="360" y2="168"/><line x1="440" y1="156" x2="440" y2="168"/></g>
+    <rect x="168" y="132" width="58" height="20" rx="6" fill="var(--coral)" stroke="var(--line)" stroke-width="3"/>
+    <path d="M180 132 l6-10 h22 l6 10" fill="var(--surface)" stroke="var(--line)" stroke-width="3"/>
+    <circle cx="182" cy="154" r="6" fill="var(--line)"/><circle cx="212" cy="154" r="6" fill="var(--line)"/>
+    <g fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round"><path d="M60 192 q12-8 24 0 t24 0"/><path d="M260 202 q12-8 24 0 t24 0"/><path d="M640 192 q12-8 24 0 t24 0"/></g>
+  </svg>
+
+  <header class="hero">
+    <div class="eyebrow">Okinawa · Self-drive</div>
+    <h1>沖繩四天三夜</h1>
+    <p>11/20（五）– 11/23（一）・恩納村三晚・自駕</p>
+    <div class="who"><span>爸爸</span><span>媽媽</span><span>韋茹</span><span>福來</span></div>
+  </header>
+
+  <nav class="daynav" id="daynav" aria-label="跳到某一天"></nav>
+
+  <div id="days"></div>
+
+  <section id="flight">
+    <div class="sec-head"><div class="eyebrow">Flight</div><h2>航班</h2></div>
+    <div class="flights">
+      <article class="flight">
+        <header><span>去程・11/20（五）</span><span>台灣虎航 IT230</span></header>
+        <div class="route">
+          <div><div class="t">06:50</div><div class="p">桃園 TPE</div></div>
+          <div class="arrow" aria-hidden="true">→</div>
+          <div class="end"><div class="t">09:20</div><div class="p">那霸 OKA</div></div>
+        </div>
+        <div class="foot">桃園機場第一航廈。<span class="flag">04:50 前到機場報到</span>。抵達時間是日本時間。</div>
+      </article>
+      <article class="flight">
+        <header><span>回程・11/23（一）</span><span>台灣虎航 IT233</span></header>
+        <div class="route">
+          <div><div class="t">21:40</div><div class="p">那霸 OKA</div></div>
+          <div class="arrow" aria-hidden="true">→</div>
+          <div class="end"><div class="t">22:10</div><div class="p">桃園 TPE</div></div>
+        </div>
+        <div class="foot">那霸機場國際線。<span class="flag">19:40 前到機場報到</span>（含退稅、逛逛時間，可以抓 18:30 前到機場）。起飛是日本時間，到桃園是台灣時間。</div>
+      </article>
+    </div>
+    <p class="small">航班時刻以訂位確認信和航空公司通知為準。</p>
+  </section>
+
+  <section id="driving">
+    <div class="sec-head"><div class="eyebrow">Driving</div><h2>在沖繩開車</h2></div>
+    <div class="tips">
+      <div class="tip">出機場後叫車到租車公司，大約 15–30 分鐘。</div>
+      <div class="tip">那霸市區傍晚很塞，最後一天還車多留 1 小時。</div>
+      <div class="tip">日本酒駕罰很重，開車的人一滴都不能喝。</div>
+    </div>
+  </section>
+
+  <section id="info">
+    <div class="sec-head"><div class="eyebrow">Information</div><h2>重要資訊</h2></div>
+    <dl class="info">
+      <div class="wide"><dt>住宿（11/20–11/22，三晚同一間）</dt><dd>沖縄県国頭郡恩納村仲間1765-30<button class="copy" type="button" data-copy="沖縄県国頭郡恩納村仲間1765-30">複製</button></dd></div>
+      <div class="wide"><dt>租車公司</dt><dd>Rettsugo Car Rental　沖縄県豊見城市瀬長44-2</dd></div>
+      <div><dt>日本報警</dt><dd class="big">110</dd></div>
+      <div><dt>日本救護車、火災</dt><dd class="big">119</dd></div>
+      <div><dt>時差</dt><dd>日本比台灣快 1 小時</dd></div>
+      <div><dt>插座</dt><dd>跟台灣一樣，不用轉接頭</dd></div>
+    </dl>
+  </section>
+
+  <section id="packing">
+    <div class="sec-head"><div class="eyebrow">Packing</div><h2>行前準備</h2></div>
+    <p class="pack-count" id="packCount"></p>
+    <ul class="pack" id="pack"></ul>
+  </section>
+
+  <section id="expenses">
+    <div class="sec-head"><div class="eyebrow">Expenses</div><h2>旅費</h2></div>
+    <div class="total">
+      <div class="num">NT$52,352</div>
+      <p>4 人平分，每人約 <b>NT$13,088</b>・匯率 1 日圓 = NT$0.21</p>
+    </div>
+    <div class="rows">
+      <div><span>機票（IT230／IT233）</span><span>NT$34,797</span></div>
+      <div><span>住宿（恩納村三晚）</span><span>NT$13,282</span></div>
+      <div><span>租車（Rettsugo Car Rental）</span><span>¥20,350（約 NT$4,274）</span></div>
+    </div>
+  </section>
+
+  <footer>整理於 2026/10/23。地點連結會開啟 Google 地圖。</footer>
+</div>
+
+<script>
+const STAY = "沖縄県国頭郡恩納村仲間1765-30";
+const RENT = "Rettsugo Car Rental（豐見城市瀨長 44-2）";
+const DAYS = [
+  { date: "11/20（五）", sub: "抵達沖繩・飯糰午餐・永旺來客夢・那霸燒肉・入住恩納", items: [
+    ["04:30", "出門前往桃園機場", null, "開車或叫車", "前一晚把護照、駕照譯本放進隨身包"],
+    ["06:50", "搭 IT230 飛往沖繩", "桃園國際機場第一航廈", "飛機，約 1.5 小時", "日本比台灣快 1 小時，09:20 是日本時間"],
+    ["09:20", "抵達那霸機場、入境", "那霸機場", null, "入境前先在手機準備好 Visit Japan Web 的 QR code"],
+    ["10:00", "取租車：Rettsugo Car Rental", RENT, "叫車", "租車公司可報銷叫車費用"],
+    ["11:00", "午餐：おにぎり屋 縁むすび（日式飯糰）", "おにぎり屋 縁むすび 那霸", "開車約 15 分鐘", "清晨出發，第一餐吃熱騰騰的飯糰"],
+    ["12:30", "永旺 STYLE 來客夢店：逛街", "イオンモール沖縄ライカム", "開車約 30 分鐘", "大型購物中心，有很多座位，走累了可以坐著休息。16:00 前出發去吃晚餐"],
+    ["16:30", "晚餐：燒肉之家 和貴 那霸國際通店", "燒肉之家和貴 那霸國際通店（那霸市松尾 1-4-2 テラスビル 1F）", "開車約 40 分鐘", "提早吃晚餐，比較不用等。建議先訂位。國際通附近停投幣式停車場。開車的人不能喝酒"],
+    ["18:30", "入住恩納村住宿，早點休息", STAY, "開車約 1 小時（走沖繩自動車道）", "今天清晨就出發，吃完晚餐回住宿早點睡"],
+  ]},
+  { date: "11/21（六）", sub: "北部・美麗海水族館・瀨底島・古宇利島蝦蝦飯", items: [
+    ["08:45", "吃完早餐出發", null, null, "今天景點比較多，早點出發"],
+    ["10:00", "美麗海水族館", "沖縄美ら海水族館", "開車約 1 小時", "在許田休息站購票。\n館內有電梯和座位，走累了隨時坐。大水槽「黑潮之海」一定要看"],
+    ["12:00", "アンチ浜（瀨底島）", "アンチ浜", "開車約 15 分鐘", "瀨底大橋旁邊的海灘，看海、拍照，停留約 30 分鐘"],
+    ["13:00", "午餐：古宇利島蝦蝦飯", "古宇利島蝦蝦飯 沖縄県国頭郡今帰仁村古宇利314", "開車約 30 分鐘（過古宇利大橋）", "營業 11:00–16:00，人很多，到了先點餐。蝦子賣完會提早關門，不要太晚去。\n招牌是奶油蒜味蝦蝦飯（約 ¥1,500），2、3 樓可以看古宇利大橋"],
+    ["14:15", "古宇利海洋塔", "古宇利オーシャンタワー", "開車約 5 分鐘", "有自動導覽車載上坡，不用自己爬坡"],
+    ["15:30", "心形岩", "ハートロック", "開車約 10 分鐘", "退潮時比較好看也比較好走，出發前查一下潮汐。沙灘路不好走，穿好走的鞋"],
+    ["16:15", "回恩納村住宿，路上去超市買食材", STAY, "開車約 50 分鐘，加上逛超市的時間", null],
+    ["18:00", "晚餐自煮", null, null, "在住宿自己煮，早點休息"],
+  ]},
+  { date: "11/22（日）", sub: "南部・沖繩世界・奧武島・琉球玻璃村・那霸晚餐", items: [
+    ["09:30", "吃完早餐出發", null, null, "今天往南部，開車時間比較長"],
+    ["11:00", "沖繩世界", "おきなわワールド", "開車約 1 小時 20 分鐘", "玉泉洞鐘乳石洞步道約 1 公里，有階梯。"],
+    ["13:30", "午餐：中本天婦羅店（奧武島）", "中本鮮魚てんぷら店", "開車約 15 分鐘", "外帶小店，常要排隊，準備現金"],
+    ["15:00", "琉球玻璃村", "琉球ガラス村", "開車約 25 分鐘", "可以看師傅吹玻璃，也能買玻璃杯當伴手禮"],
+    ["17:30", "晚餐：Kushiyaki Can（串燒）", "Kushiyaki Can 那霸", "開車約 30 分鐘", "串燒居酒屋，晚餐時段建議先訂位。日本酒駕罰很重，開車的人一滴都不能喝"],
+    ["19:30", "回恩納村住宿", STAY, "開車約 1 小時（走沖繩自動車道）", null],
+  ]},
+  { date: "11/23（一）", sub: "果報崖・製鹽工廠・國際通吃鰻魚・豐崎・回家", items: [
+    ["09:30", "退房出發", STAY, null, "行李全部放上車。今天早上可以睡晚一點"],
+    ["10:30", "果報崖（宮城島）", "果報バンタ", "開車約 1 小時（經過海中道路）", "海崖上的觀景台，可以看到很藍的海。從停車場走過去不遠"],
+    ["11:15", "ぬちまーす 製鹽工廠", "ぬちまーす 観光製塩ファクトリー", "就在果報崖旁邊，走路就到", "可以參觀製鹽過程，也能買鹽當伴手禮，店裡有鹽味霜淇淋"],
+    ["13:00", "午餐：大家的鰻魚 那霸國際通店", "大家的鰻魚 那霸國際通店", "開車約 1 小時", "國際通附近停投幣式停車場。出發前先查好營業時間，看要不要先預約"],
+    ["14:45", "iias 沖繩豐崎：逛街、買伴手禮", "iias沖縄豊崎", "開車約 25 分鐘", "離機場很近，可以慢慢逛"],
+    ["17:30", "加滿油、還車：Rettsugo Car Rental", RENT, "從 iias 開車約 10 分鐘", "還車後叫車到那霸機場，約 10 分鐘"],
+    ["18:30", "到機場報到、退稅", "那霸機場", null, null],
+    ["21:40", "搭 IT233 回台灣", null, "飛機", "台灣時間 22:10 到桃園"],
+  ]},
+];
+const PACK = ["護照（效期還有 6 個月以上）", "台灣駕照正本＋日文譯本", "日圓現金、信用卡", "老花眼鏡", "薄外套（11 月白天約 23 度，海邊晚上有風）", "好走的鞋", "手機、充電線、行動電源（行動電源要放隨身行李）", "日本網卡或 eSIM"];
+
+const esc = s => s.replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const mapUrl = q => "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(q.replace(/（.*?）/g, " ").trim());
+
+document.getElementById("days").innerHTML = DAYS.map((d, i) => `
+  <section id="day${i + 1}">
+    <div class="day-head">
+      <div class="day-num">0${i + 1}</div>
+      <div><div class="eyebrow">Day ${i + 1}</div><h3>第 ${i + 1} 天<small>${d.date}</small></h3><p>${d.sub}</p></div>
+    </div>
+    <ol class="tl">${d.items.map(([t, title, place, trans, note]) => `
+      <li><div class="time">${t}</div><div class="card">
+        <h4>${esc(title)}</h4>
+        ${place ? `<p class="meta">地點：<a href="${mapUrl(place)}" target="_blank" rel="noopener">${esc(place)}</a></p>` : ""}
+        ${trans ? `<p class="meta">交通：${esc(trans)}</p>` : ""}
+        ${note ? `<div class="note">${note.split("\n").map(l => `<p>${esc(l)}</p>`).join("")}</div>` : ""}
+      </div></li>`).join("")}
+    </ol>
+  </section>`).join("");
+
+const nav = document.getElementById("daynav");
+nav.innerHTML = DAYS.map((d, i) => `<a href="#day${i + 1}"><b>Day ${i + 1}</b>${d.date.slice(0, 5)}</a>`).join("");
+const links = [...nav.querySelectorAll("a")];
+nav.addEventListener("click", e => {
+  const a = e.target.closest("a"); if (!a) return;
+  e.preventDefault();
+  document.querySelector(a.getAttribute("href")).scrollIntoView();
+});
+const io = new IntersectionObserver(entries => {
+  entries.forEach(en => {
+    if (en.isIntersecting) links.forEach(l => l.classList.toggle("on", l.getAttribute("href") === "#" + en.target.id));
+  });
+}, { rootMargin: "-40% 0px -55% 0px" });
+document.querySelectorAll('section[id^="day"]').forEach(s => io.observe(s));
+
+let packed = [];
+try { packed = JSON.parse(localStorage.getItem("okinawa-pack") || "[]"); } catch (e) {}
+const packEl = document.getElementById("pack");
+packEl.innerHTML = PACK.map((p, i) => `<li><label><input type="checkbox" id="pack${i}" ${packed.includes(i) ? "checked" : ""}><span>${esc(p)}</span></label></li>`).join("");
+const countEl = document.getElementById("packCount");
+const updateCount = () => {
+  const done = [...packEl.querySelectorAll("input")].filter(x => x.checked).length;
+  countEl.textContent = `已準備 ${done} / ${PACK.length} 項（勾選只存在這支手機）`;
+};
+packEl.addEventListener("change", () => {
+  const ids = [...packEl.querySelectorAll("input")].map((x, i) => x.checked ? i : -1).filter(i => i >= 0);
+  try { localStorage.setItem("okinawa-pack", JSON.stringify(ids)); } catch (e) {}
+  updateCount();
+});
+updateCount();
+
+document.querySelectorAll(".copy").forEach(b => b.addEventListener("click", () => {
+  const txt = b.dataset.copy;
+  navigator.clipboard.writeText(txt).then(() => { b.textContent = "已複製"; setTimeout(() => b.textContent = "複製", 1500); })
+    .catch(() => { const r = document.createRange(); r.selectNodeContents(b.parentNode.firstChild); const s = getSelection(); s.removeAllRanges(); s.addRange(r); });
+}));
+</script>
+</body>
+</html>
